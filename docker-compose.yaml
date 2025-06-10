@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: app/dockerfile.yaml
+    container_name: url_shortener_app
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"  # Mapeia a porta 8000 do container para a porta 8000 local
+    depends_on:
+      - mongodb
+
+
+  mongodb:
+    image: mongo:latest  # Usando a imagem oficial do MongoDB
+    container_name: url_shortener_db
+    ports:
+      - "27017:27017"  # Mapeia a porta 27017 do MongoDB
+    volumes:
+      - mongodb_data:/data/db  # Persistência de dados em volume local
+
+volumes:
+  mongodb_data:  # Define o volume para persistência de dados do MongoDB
