@@ -1,5 +1,5 @@
 # Use a imagem oficial do Python como base
-FROM python:3.11-slim
+FROM python:3.12-slim-bookworm
 
 # Setando o diretório de trabalho no container
 WORKDIR /app

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: encurtador-url-deployment
+  namespace: applications
+  labels:
+    app: encurtador-url
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: encurtador-url
+  template:
+    metadata:
+      labels:
+        app: encurtador-url
+    spec:
+      containers:
+      - name: encurtador-url
+        image: layzan/encurtador-url:1.0
+        ports:
+        - containerPort: 8000
+        env:
+        - name: MONGO_URI
+          value: "mongodb://mongo-service:27017"
+        - name: DB_NAME
+          value: "url_shortener"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: encurtador-url-service
+  namespace: applications
+spec:
+  type: NodePort
+  selector:
+    app: encurtador-url
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+      nodePort: 30082
