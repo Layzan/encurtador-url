@@ -1,10 +1,6 @@
-version: '3.8'
-
 services:
   app:
-    build:
-      context: .
-      dockerfile: app/dockerfile.yaml
+    image: layzan/encurtador-url:1.0
     container_name: url_shortener_app
     env_file:
       - .env
